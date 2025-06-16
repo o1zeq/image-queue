@@ -1,0 +1,26 @@
+{
+  "name": "image-queue",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist *.zip",
+    "build:producer": "bun build ./src/producer/handler.ts --outdir ./dist/producer --target=node",
+    "build:consumer": "bun build ./src/consumer/handler.ts --outdir ./dist/consumer --target=node",
+    "package:producer": "cp package.json dist/producer/ && (cd dist/producer && zip -r ../../producer_package.zip .)",
+    "package:consumer": "cp package.json dist/consumer/ && (cd dist/consumer && zip -r ../../consumer_package.zip .)",
+    "build-and-package": "bun run build:producer && bun run build:consumer && bun run package:producer && bun run package:consumer"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/bun": "latest",
+    "prettier": "^3.5.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.828.0",
+    "@aws-sdk/client-sqs": "^3.828.0"
+  }
+}
